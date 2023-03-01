@@ -1,0 +1,1 @@
+# Örüntü Sözdizimi

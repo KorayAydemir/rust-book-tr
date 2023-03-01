@@ -1,0 +1,1 @@
+# Bir Enum Tanımlamak

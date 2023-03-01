@@ -1,0 +1,1 @@
+# Testlerin Nasıl Çalıştırılacağını Denetlemek

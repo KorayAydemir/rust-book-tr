@@ -1,0 +1,1 @@
+# Örüntüler Her Yerde Kullanılabilir

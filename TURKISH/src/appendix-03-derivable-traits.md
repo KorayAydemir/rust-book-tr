@@ -1,0 +1,1 @@
+# C - Türetilebilir Özellikler

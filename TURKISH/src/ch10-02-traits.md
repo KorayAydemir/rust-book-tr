@@ -1,0 +1,1 @@
+# Özellikler: Paylaşılan Davranışı Tanımlamak

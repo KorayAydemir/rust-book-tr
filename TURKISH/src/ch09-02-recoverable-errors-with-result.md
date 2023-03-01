@@ -1,0 +1,1 @@
+# Result ile Kurtarılabilir Hatalar

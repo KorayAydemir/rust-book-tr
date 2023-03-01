@@ -1,0 +1,1 @@
+# Paylaşılan Durum Eşzamanlılığı

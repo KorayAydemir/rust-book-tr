@@ -1,0 +1,1 @@
+# Yapıları Tanımlamak ve Örneklemek

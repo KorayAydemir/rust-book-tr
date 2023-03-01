@@ -1,0 +1,1 @@
+# Sorunsuzca Kapatmak ve Temizlik
