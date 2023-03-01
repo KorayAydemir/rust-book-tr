@@ -36,10 +36,11 @@
     - [Bir Enum Tanımlamak](ch06-01-defining-an-enum.md)
     - [Kontrol Akışı Yapısı `match`](ch06-02-match.md)
     - [`if let` ile Özgün Kontrol Akışı](ch06-03-if-let.md)
+-->
 
 ## Temel Rust Okuryazarlığı
 
-- [Büyüyen Projeleri Paketler, Sandıklar ve Modüller ile Yönetmek](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
+<!-- - [Büyüyen Projeleri Paketler, Sandıklar ve Modüller ile Yönetmek](ch07-00-managing-growing-projects-with-packages-crates-and-modules.md)
     - [Paketler ve Sandıklar](ch07-01-packages-and-crates.md)
     - [Kapsam ve Gizlilik Kontrolü İçin Modül Tanımlamak](ch07-02-defining-modules-to-control-scope-and-privacy.md)
     - [Modül Ağacındaki Bir Öğeye Başvurmanın Yolları](ch07-03-paths-for-referring-to-an-item-in-the-module-tree.md)
@@ -50,9 +51,10 @@
     - [Değer Listelerini Vektör Kullanarak Depolamak](ch08-01-vectors.md)
     - [UTF-8 Kodlu Metinleri Dizgilerle Saklamak](ch08-02-strings.md)
     - [İlişkili Değerlere Sahip Anahtarları Eşleme Haritalarında Saklamak](ch08-03-hash-maps.md)
+-->
 
 - [Hata Yönetimi](ch09-00-error-handling.md)
-    - [`panic!` ile Kurtarılamaz Hatalar](ch09-01-unrecoverable-errors-with-panic.md)
+<!--    - [`panic!` ile Kurtarılamaz Hatalar](ch09-01-unrecoverable-errors-with-panic.md)
     - [`Result` ile Kurtarılabilir Hatalar](ch09-02-recoverable-errors-with-result.md)
     - [`panic!`lemek ya da `panic!`lememek](ch09-03-to-panic-or-not-to-panic.md)
 
