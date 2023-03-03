@@ -1,34 +1,46 @@
 ## `panic!` ile Kurtarılamaz Hatalar
 
 Bazen, kodunuzda kötü şeyler yaşanır, ve bunun hakkında yapabilecek hiçbir şeyiniz
-yoktur. Bu durumlarda, Rust `panic!` makrosuna sahiptir. `panic!` makrosu çalıştığında,
-programınız bir arıza mesajı yazdıracak, çözüp yığıtı temizleyecek, ve sonra çıkış
-yapacaktır. Çoğunlukla bir bug veya benzeri bir şey tespit edildiğinde ve programı
-yazdığımız anda sorunu nasıl işleyeceğimiz belli olmadığında bir panik uyandırmış oluruz.
+olmaz. Bu durumlar için, Rust `panic!` makrosuna sahiptir. Pratikte, paniğe sebep olmanın
+iki yolu vardır: kodumuzun paniklemesine neden olacak bir şey yapmak (bir dizinin
+bitişinin ötesine erişmeye çalışmak gibi) veya özellikle `panic!` makrosunu çağırarak.
+İki durumda da, programımızda bir paniğe sebep oluruz. Varsayılan olarak, bu panikler
+bir arıza mesajı yazdıracak, yığıtı çözüp, temizleyecek, ve çıkış yapacaktır. Bir
+ortam değişkeni aracılığıyla, Rust'ın bir panik meydana geldiğinde paniğin kaynağını
+daha kolay bulmak için çağırma yığıtını göstermesini sağlayabilirsiniz
 
 > ### Yığını Çözmek veya Bir Paniğe Yanıt Olarak Yarıda Kesmek.
 >
-> Varsayılan olarak, bir panik meydana geldiğinde, program *çözülmeye* başlar, bu
+>Varsayılan olarak, bir panik meydana geldiğinde, program *çözülmeye* başlar, bu
 >demektir ki; Rust yığıttan yukarı geri yürüyüp çıkar ve veriyi karşılaştığı her fonksiyondan
 >temizler. Ancak, bu geri yürüme ve temizleme çok fazla iştir. Bu yüzden Rust,
->anında *yarıda kesmeye* alternatif seçmenize izin verir, ki bu da programı temizlemeden
->sonlandırır. Programın kullandığı hafızanın sonra işletim sistemi tarafından temizlenmesi
+>bir anda *yarıda kesmek* alternatifini seçmenize izin verir, ki bu da programı temizlemeden
+>sonlandırır. 
+>
+>Programın kullandığı hafızanın sonra işletim sistemi tarafından temizlenmesi
 >gerekecektir. Eğer projenizden çıkan bilgisayar tarafından yorumlanan dosyayı olabildiğince
 >küçültmeniz gerekiyor ise, *Cargo.toml* dosyanızdaki uygun `[profile]` kısımlarına
 >`panic = 'abort'` ekleyerek, bir panik olduğunda çözme yerine yarıda kesmeye
->değiştirebilirsiniz.
+>değiştirebilirsiniz. Örneğin, yayınlama modunda panik olduğunda yarıda kesmek isterseniz,
+>bunu ekleyin:
 >
 > ```toml
 > [profile.release]
 > panic = 'abort'
 > ```
 
-Basit bir program içinde `panic!` çağırmayı deneyelim:
+Haydi basit bir program içinde `panic!` çağırmayı deneyelim:
 
 <span class="filename">Dosya adı: src/main.rs</span>
 
 ```rust,should_panic,panics
 {{#rustdoc_include ../listings/ch09-error-handling/no-listing-01-panic/src/main.rs}}
+```
+
+Programı çalıştırdığınızda, buna benzer bir şey göreceksiniz:
+
+```console
+{{#include ../listings/ch09-error-handling/no-listing-01-panic/output.txt}}
 ```
 
 `panic!` çağrısı son iki satırda bulunan hata mesajına sebep olur. İlk satır panik
@@ -39,9 +51,9 @@ Bu durumda, işaret edilen satır kodumuzun bir parçası, ve eğer bu satıra g
 `panic!` makro çağrısını görürüz. Diğer durumlarda, `panic!` çağrısı kodumuzun
 çağırdığı bir kodun içinde olabilir, ve hata mesajı tarafından bildirilen dosya
 adı ve satır numarası bizim kodumuzun `panic!` çağrısına neden olan satiri değil,
-başka birisinin kodunda `panic!` makrosunun çağrıldığı yer olacaktır. Soruna sebep
-olan yeri bulmak için `panic!` çağrısının geldiği fonksiyonların geri izlemesini
-kullanabiliriz. Geri izlemeleri sonra daha detaylı tartışacağız.
+başka birisinin kodunda `panic!` makrosunun çağrıldığı yer olacaktır. Kodumuzun
+soruna sebep olan kısmını bulmak için `panic!` çağrısının geldiği fonksiyonların
+geri izlemesini kullanabiliriz. Geri izlemeleri sonra daha detaylı tartışacağız.
 
 ### Bir `panic!` Geri İzlemesini Kullanmak
 
@@ -121,8 +133,8 @@ stack backtrace:
 note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
 ```
 
-<span class="caption">Listeleme 9-2: Ortam değişkeni `RUST_BACKTRACE` ayarlanmış iken, `panic!`e bir
-çağrı tarafından oluşturulan geri izleme.</span>
+<span class="caption">Listeleme 9-2: Ortam değişkeni `RUST_BACKTRACE` ayarlanmış
+iken, `panic!`e bir çağrı tarafından oluşturulan geri izleme.</span>
 
 Oldukça uzun bir çıktı! Sizin gördüğünüz tam çıktı işletim sisteminize ve Rust
 versiyonunuza göre biraz farklı olabilir. Bu bilgileri içeren geri
@@ -138,14 +150,11 @@ paniği düzeltmenin yolu; vektörün indeks aralığının ötesinde bir eleman
 etmemektir. İleride kodunuz paniklediğinde, kodun paniğe sebep olacak kadar hangi
 değerlerle ne yaptığını ve onun yerine ne yapması gerektiğini anlamanız gerecektir.
 
-`panic!`'e ve ne zaman hata koşullarını işlemek için `panic!` kullanmamamız
-gerektiğine bu bölümün daha sonrasında [“`panic!`lemek ya da
+`panic!`'e ve hata koşullarını işlemek için ne zaman `panic!` kullanmamamız
+gerektiğine bu bölümün sonralarında [“`panic!`lemek ya da
 `panic!`lememek”][to-panic-or-not-to-panic] kısmında geri döneceğiz. Daha sonra,
 `Result` kullanarak bir hatadan nasıl kurtarabileceğimize bakacağız.
 
 [to-panic-or-not-to-panic]:
 ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic
-
-
-
 
